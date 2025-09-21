@@ -1,8 +1,8 @@
-import WhatsAppWarmer from "@/components/pages/WhatsAppWarmer";
+import WhatsAppWarmerPage from "./WhatsAppWarmerPage";
 import React from "react";
 
 const page = () => {
-  return <WhatsAppWarmer />;
+  return <WhatsAppWarmerPage />;
 };
 
 export default page;

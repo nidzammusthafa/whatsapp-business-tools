@@ -25,6 +25,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const navigationItems = [
@@ -59,7 +60,7 @@ const settingsItems = [
 
 export function AppSidebar() {
   const { state } = useSidebar();
-  const currentPath = location.pathname;
+  const currentPath = usePathname();
 
   const isActive = (path: string) => {
     if (path === "/dashboard") return currentPath === path;

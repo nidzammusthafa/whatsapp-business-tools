@@ -1,8 +1,8 @@
-import { AIAssistant } from "@/components/pages/AIAssistant";
+import AIAssistantPage from "./AIAssistantPage";
 import React from "react";
 
 const page = () => {
-  return <AIAssistant />;
+  return <AIAssistantPage />;
 };
 
 export default page;

@@ -1,35 +1,58 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Address } from '@/types';
+"use client";
+
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Address } from "@/types";
 
 const addressSchema = z.object({
-  name: z.string().min(1, 'Nama wajib diisi'),
-  phoneNumber: z.string().min(1, 'Nomor HP wajib diisi'),
-  email: z.string().email('Format email tidak valid').optional().or(z.literal('')),
-  address: z.string().min(1, 'Alamat wajib diisi'),
+  name: z.string().min(1, "Nama wajib diisi"),
+  phoneNumber: z.string().min(1, "Nomor HP wajib diisi"),
+  email: z
+    .string()
+    .email("Format email tidak valid")
+    .optional()
+    .or(z.literal("")),
+  address: z.string().min(1, "Alamat wajib diisi"),
   city: z.string().optional(),
   state: z.string().optional(),
   country: z.string().optional(),
   postalCode: z.string().optional(),
-  website: z.string().url('Format URL tidak valid').optional().or(z.literal('')),
+  website: z
+    .string()
+    .url("Format URL tidak valid")
+    .optional()
+    .or(z.literal("")),
   rating: z.number().min(0).max(5).optional(),
   reviews: z.number().min(0).optional(),
   latitude: z.number().optional(),
   longitude: z.number().optional(),
   status: z.string().optional(),
-  isBusiness: z.boolean().default(false),
+  isBusiness: z.boolean(),
   businessName: z.string().optional(),
   businessCategory: z.string().optional(),
-  hasReceivedMessage: z.boolean().default(false),
+  hasReceivedMessage: z.boolean(),
 });
 
 type AddressFormData = z.infer<typeof addressSchema>;
@@ -40,25 +63,25 @@ interface AddressFormProps {
 }
 
 const statusOptions = [
-  'Lead',
-  'Prospect',
-  'Customer',
-  'VIP Customer',
-  'Inactive',
+  "Lead",
+  "Prospect",
+  "Customer",
+  "VIP Customer",
+  "Inactive",
 ];
 
 const businessCategories = [
-  'Teknologi Informasi',
-  'Perdagangan',
-  'Konstruksi',
-  'Elektronik',
-  'Makanan & Minuman',
-  'Fashion',
-  'Otomotif',
-  'Kesehatan',
-  'Pendidikan',
-  'Keuangan',
-  'Lainnya',
+  "Teknologi Informasi",
+  "Perdagangan",
+  "Konstruksi",
+  "Elektronik",
+  "Makanan & Minuman",
+  "Fashion",
+  "Otomotif",
+  "Kesehatan",
+  "Pendidikan",
+  "Keuangan",
+  "Lainnya",
 ];
 
 export function AddressForm({ initialData, onSubmit }: AddressFormProps) {
@@ -67,29 +90,29 @@ export function AddressForm({ initialData, onSubmit }: AddressFormProps) {
   const form = useForm<AddressFormData>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
-      name: initialData?.name || '',
-      phoneNumber: initialData?.phoneNumber || '',
-      email: initialData?.email || '',
-      address: initialData?.address || '',
-      city: initialData?.city || '',
-      state: initialData?.state || '',
-      country: initialData?.country || 'Indonesia',
-      postalCode: initialData?.postalCode || '',
-      website: initialData?.website || '',
+      name: initialData?.name || "",
+      phoneNumber: initialData?.phoneNumber || "",
+      email: initialData?.email || "",
+      address: initialData?.address || "",
+      city: initialData?.city || "",
+      state: initialData?.state || "",
+      country: initialData?.country || "Indonesia",
+      postalCode: initialData?.postalCode || "",
+      website: initialData?.website || "",
       rating: initialData?.rating || undefined,
       reviews: initialData?.reviews || undefined,
       latitude: initialData?.latitude || undefined,
       longitude: initialData?.longitude || undefined,
-      status: initialData?.status || '',
+      status: initialData?.status || "",
       isBusiness: initialData?.isBusiness || false,
-      businessName: initialData?.businessName || '',
-      businessCategory: initialData?.businessCategory || '',
+      businessName: initialData?.businessName || "",
+      businessCategory: initialData?.businessCategory || "",
       hasReceivedMessage: initialData?.hasReceivedMessage || false,
     },
   });
 
   const { watch } = form;
-  const isBusiness = watch('isBusiness');
+  const isBusiness = watch("isBusiness");
 
   const handleSubmit = async (data: AddressFormData) => {
     setIsSubmitting(true);
@@ -107,7 +130,7 @@ export function AddressForm({ initialData, onSubmit }: AddressFormProps) {
         businessName: data.businessName || null,
         businessCategory: data.businessCategory || null,
       };
-      
+
       onSubmit(cleanedData);
     } finally {
       setIsSubmitting(false);
@@ -173,7 +196,10 @@ export function AddressForm({ initialData, onSubmit }: AddressFormProps) {
                   <FormItem>
                     <FormLabel>Alamat *</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Masukkan alamat lengkap" {...field} />
+                      <Textarea
+                        placeholder="Masukkan alamat lengkap"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -290,7 +316,10 @@ export function AddressForm({ initialData, onSubmit }: AddressFormProps) {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Kategori Bisnis</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="Pilih kategori" />
@@ -339,7 +368,10 @@ export function AddressForm({ initialData, onSubmit }: AddressFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Status</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Pilih status" />
@@ -373,7 +405,13 @@ export function AddressForm({ initialData, onSubmit }: AddressFormProps) {
                           max="5"
                           placeholder="4.5"
                           {...field}
-                          onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : undefined)}
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value
+                                ? parseFloat(e.target.value)
+                                : undefined
+                            )
+                          }
                         />
                       </FormControl>
                       <FormMessage />
@@ -393,7 +431,13 @@ export function AddressForm({ initialData, onSubmit }: AddressFormProps) {
                           min="0"
                           placeholder="100"
                           {...field}
-                          onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value
+                                ? parseInt(e.target.value)
+                                : undefined
+                            )
+                          }
                         />
                       </FormControl>
                       <FormMessage />
@@ -426,7 +470,11 @@ export function AddressForm({ initialData, onSubmit }: AddressFormProps) {
             Reset
           </Button>
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Menyimpan...' : initialData ? 'Update Kontak' : 'Simpan Kontak'}
+            {isSubmitting
+              ? "Menyimpan..."
+              : initialData
+              ? "Update Kontak"
+              : "Simpan Kontak"}
           </Button>
         </div>
       </form>
